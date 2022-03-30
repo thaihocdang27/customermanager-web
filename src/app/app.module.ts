@@ -13,6 +13,7 @@ import { NzGridModule } from 'ng-zorro-antd/grid';
 import { de_DE, NZ_I18N } from 'ng-zorro-antd/i18n';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
 import { NzTableModule } from 'ng-zorro-antd/table';
 
 import { AppComponent } from './app.component';
@@ -41,7 +42,8 @@ registerLocaleData(de);
     NzDatePickerModule,
     ReactiveFormsModule,
     NzFormModule,
-    NzInputModule
+    NzInputModule,
+    NzPopconfirmModule
   ],
   providers: [{provide: NZ_I18N, useValue: de_DE}],
   bootstrap: [AppComponent]

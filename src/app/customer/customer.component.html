@@ -34,6 +34,45 @@
           <nz-date-picker formControlName="birthday"></nz-date-picker>
         </nz-form-control>
       </nz-form-item>
+      <nz-form-item *ngFor="let address of customer.addresses; let i = index">
+        <nz-form-label [nzXs]="24" [nzSm]="6" *ngIf="i === 0">
+          Adressen
+        </nz-form-label>
+        <nz-form-control
+          [nzXs]="24"
+          [nzSm]="14"
+          [nzOffset]="i === 0 ? 0 : 6"
+          nzErrorTip="Bitte geben sie Ihren Adresse ein!"
+        >
+          <input
+            class="address-input"
+            nz-input
+            placeholder="Strasse"
+            [formControl]="$any (streets.controls[i])"
+          />
+          <input
+            class="address-input"
+            nz-input
+            placeholder="PLZ"
+            [formControl]="$any (plzs.controls[i])"
+          />
+          <input
+            class="address-input"
+            nz-input
+            placeholder="Ort"
+            [formControl]="$any (cities.controls[i])"
+          />
+          <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button" (click)="removeField(i)"></i>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 18, offset: 6 }">
+          <button nz-button nzType="dashed" class="add-button" (click)="addField()">
+            <i nz-icon nzType="plus"></i>
+            Add field
+          </button>
+        </nz-form-control>
+      </nz-form-item>
       <nz-form-item nz-row class="register-area">
         <nz-form-control [nzSpan]="14" [nzOffset]="6">
           <button nz-button nzType="primary">Speichern</button>

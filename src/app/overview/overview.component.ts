@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomerService } from '../customer.service';
-import { Address, OverviewCustomer } from './models';
+import { Address, OverviewCustomer } from '../models';
 
 
 @Component({
