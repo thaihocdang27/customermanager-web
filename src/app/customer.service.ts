@@ -25,4 +25,8 @@ export class CustomerService {
   saveCustomers(customer: Customer) {
     return this.http.post(this.url, customer);
   }
+
+  deleteCustomer(id: number) {
+    return this.http.delete(this.url + '/' + id);
+  }
 }

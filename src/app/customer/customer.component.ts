@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CustomerService } from '../customer.service';
 import { Customer } from '../models';
 
@@ -30,7 +31,7 @@ export class CustomerComponent implements OnInit {
       cities: this.cities
     }
   );
-  customerId?: number = 2;
+  customerId?: number;
   customer: Customer = {
     id: 0,
     firstName: '',
@@ -41,27 +42,30 @@ export class CustomerComponent implements OnInit {
     addresses: []
   };
 
-  constructor(private fb: FormBuilder, private customerService: CustomerService) {
+  constructor(private fb: FormBuilder, private customerService: CustomerService, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {
-    if (this.customerId !== undefined) {
-      this.customerService.getCustomer(this.customerId).subscribe(response => {
-        this.customer = response;
-        this.firstName.setValue(this.customer.firstName);
-        this.lastName.setValue(this.customer.lastName);
-        this.email.setValue(this.customer.email);
-        this.phoneNumber.setValue(this.customer.phoneNumber);
-        this.birthday.setValue(this.customer.birthday);
-        this.customer.addresses.forEach(address => {
-          this.streets.push(new FormControl(address.street, Validators.required));
-          this.plzs.push(new FormControl(address.plz, Validators.required));
-          this.cities.push(new FormControl(address.city, Validators.required));
+    this.route.queryParams.subscribe(params => {
+      this.customerId = params['id'];
+      if (this.customerId !== undefined) {
+        this.customerService.getCustomer(this.customerId).subscribe(response => {
+          this.customer = response;
+          this.firstName.setValue(this.customer.firstName);
+          this.lastName.setValue(this.customer.lastName);
+          this.email.setValue(this.customer.email);
+          this.phoneNumber.setValue(this.customer.phoneNumber);
+          this.birthday.setValue(this.customer.birthday);
+          this.customer.addresses.forEach(address => {
+            this.streets.push(new FormControl(address.street, Validators.required));
+            this.plzs.push(new FormControl(address.plz, Validators.required));
+            this.cities.push(new FormControl(address.city, Validators.required));
+          });
         });
-      });
-    } else {
-      this.addField();
-    }
+      } else {
+        this.addField();
+      }
+    });
   }
 
   submitForm() {
@@ -78,7 +82,7 @@ export class CustomerComponent implements OnInit {
         return address;
       });
       console.log(this.customer);
-      this.customerService.saveCustomers(this.customer).subscribe();
+      this.customerService.saveCustomers(this.customer).subscribe(() => this.router.navigate(['/home']));
     } else {
       console.log('dirty');
       Object.values(this.validateForm.controls).forEach(control => {

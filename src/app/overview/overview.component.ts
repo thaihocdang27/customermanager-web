@@ -1,6 +1,9 @@
+import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { CustomerService } from '../customer.service';
-import { Address, OverviewCustomer } from '../models';
+import { Address, Customer, OverviewCustomer } from '../models';
 
 
 @Component({
@@ -13,7 +16,7 @@ export class OverviewComponent implements OnInit {
   customers: OverviewCustomer[] = [];
   addresses: Address[] = [];
 
-  constructor(private customerService: CustomerService) {
+  constructor(private customerService: CustomerService, private router: Router, private modal: NzModalService) {
   }
 
   ngOnInit() {
@@ -26,4 +29,23 @@ export class OverviewComponent implements OnInit {
       });
   }
 
+  createCustomer() {
+    this.router.navigate(['/create']);
+  }
+
+  editCustomer(id: number) {
+    this.router.navigate(['/edit'], {queryParams: {id: id}});
+  }
+
+  deleteCustomer(customer: Customer) {
+    this.modal.confirm({
+      nzTitle: '<i>Wollen Sie wirklich diesn Customer löschen?</i>',
+      nzContent: '<b>' + customer.firstName + ' ' + customer.lastName + '</b>',
+      nzOnOk: () => this.customerService.deleteCustomer(customer.id).subscribe(() => window.location.reload())
+    });
+  }
+
+  formatDate(date: Date) {
+    return formatDate(date, 'dd.MM.yyyy', 'en-US');
+  }
 }
