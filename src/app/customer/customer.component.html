@@ -7,31 +7,31 @@
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="firstName">Vorname</nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Bitte geben sie Ihren Vornamen ein!">
-          <input nz-input formControlName="firstName" id="firstName"/>
+          <input nz-input [formControl]="firstName" id="firstName"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="lastName">Name</nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Bitte geben sie Ihren Name ein!">
-          <input nz-input formControlName="lastName" id="lastName"/>
+          <input nz-input [formControl]="lastName" id="lastName"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">E-Mail</nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Bitte geben sie Ihre E-Mail ein!">
-          <input nz-input formControlName="email" id="email"/>
+          <input nz-input [formControl]="email" id="email"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="phoneNumber">Telefonnummer</nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Bitte geben sie Ihre Telefonnummer ein!">
-          <input nz-input formControlName="phoneNumber" id="phoneNumber"/>
+          <input nz-input [formControl]="phoneNumber" id="phoneNumber"/>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Geburtsdatum</nz-form-label>
         <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Bitte geben sie Ihren Geburtadatum ein!">
-          <nz-date-picker formControlName="birthday"></nz-date-picker>
+          <nz-date-picker [formControl]="birthday"></nz-date-picker>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item *ngFor="let address of customer.addresses; let i = index">
@@ -67,9 +67,9 @@
       </nz-form-item>
       <nz-form-item>
         <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 18, offset: 6 }">
-          <button nz-button nzType="dashed" class="add-button" (click)="addField()">
+          <button nz-button nzType="dashed" type="button" class="add-button" (click)="addField()">
             <i nz-icon nzType="plus"></i>
-            Add field
+            Adresse hinzufügen
           </button>
         </nz-form-control>
       </nz-form-item>

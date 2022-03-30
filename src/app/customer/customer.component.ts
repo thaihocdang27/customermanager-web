@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { CustomerService } from '../customer.service';
 import { Customer } from '../models';
 
 
@@ -9,18 +10,27 @@ import { Customer } from '../models';
   styleUrls: ['./customer.component.css']
 })
 export class CustomerComponent implements OnInit {
+  firstName: FormControl = this.fb.control(undefined, Validators.required);
+  lastName: FormControl = this.fb.control(undefined, Validators.required);
+  email: FormControl = this.fb.control(undefined, Validators.required);
+  phoneNumber: FormControl = this.fb.control(undefined, Validators.required);
+  birthday: FormControl = this.fb.control(undefined, Validators.required);
+  streets: FormArray = this.fb.array([]);
+  plzs: FormArray = this.fb.array([]);
+  cities: FormArray = this.fb.array([]);
+
   validateForm: FormGroup = this.fb.group({
-      firstName: [null, [Validators.required]],
-      lastName: [null, [Validators.required]],
-      email: [null, [Validators.required]],
-      phoneNumber: [null, [Validators.required]],
-      birthday: [null, [Validators.required]],
-      streets: this.fb.array([]),
-      plzs: this.fb.array([]),
-      cities: this.fb.array([])
+      firstName: this.firstName,
+      lastName: this.lastName,
+      email: this.email,
+      phoneNumber: this.phoneNumber,
+      birthday: this.birthday,
+      streets: this.streets,
+      plzs: this.plzs,
+      cities: this.cities
     }
   );
-  customerId?: number;
+  customerId?: number = 2;
   customer: Customer = {
     id: 0,
     firstName: '',
@@ -31,32 +41,46 @@ export class CustomerComponent implements OnInit {
     addresses: []
   };
 
-  constructor(private fb: FormBuilder) {
-  }
-
-  get streets() {
-    return this.validateForm.controls['streets'] as FormArray;
-  }
-
-  get plzs() {
-    return this.validateForm.controls['plzs'] as FormArray;
-  }
-
-  get cities() {
-    return this.validateForm.controls['cities'] as FormArray;
+  constructor(private fb: FormBuilder, private customerService: CustomerService) {
   }
 
   ngOnInit() {
     if (this.customerId !== undefined) {
-      //get customer
+      this.customerService.getCustomer(this.customerId).subscribe(response => {
+        this.customer = response;
+        this.firstName.setValue(this.customer.firstName);
+        this.lastName.setValue(this.customer.lastName);
+        this.email.setValue(this.customer.email);
+        this.phoneNumber.setValue(this.customer.phoneNumber);
+        this.birthday.setValue(this.customer.birthday);
+        this.customer.addresses.forEach(address => {
+          this.streets.push(new FormControl(address.street, Validators.required));
+          this.plzs.push(new FormControl(address.plz, Validators.required));
+          this.cities.push(new FormControl(address.city, Validators.required));
+        });
+      });
+    } else {
+      this.addField();
     }
-    this.addField();
   }
 
   submitForm() {
     if (this.validateForm.valid) {
-
+      this.customer.firstName = this.validateForm.value.firstName;
+      this.customer.lastName = this.validateForm.value.lastName;
+      this.customer.email = this.validateForm.value.email;
+      this.customer.phoneNumber = this.validateForm.value.phoneNumber;
+      this.customer.birthday = this.validateForm.value.birthday;
+      this.customer.addresses.map((address, i) => {
+        address.street = this.streets.controls[i].value;
+        address.plz = this.plzs.controls[i].value;
+        address.city = this.cities.controls[i].value;
+        return address;
+      });
+      console.log(this.customer);
+      this.customerService.saveCustomers(this.customer).subscribe();
     } else {
+      console.log('dirty');
       Object.values(this.validateForm.controls).forEach(control => {
         if (control.invalid) {
           control.markAsDirty();
@@ -73,11 +97,11 @@ export class CustomerComponent implements OnInit {
       plz: 0,
       city: ''
     });
-    this.streets.push(new FormControl(null, Validators.required)
+    this.streets.push(this.fb.control(undefined, Validators.required)
     );
-    this.plzs.push(new FormControl(null, Validators.required)
+    this.plzs.push(this.fb.control(undefined, Validators.required)
     );
-    this.cities.push(new FormControl(null, Validators.required)
+    this.cities.push(this.fb.control(undefined, Validators.required)
     );
   }
 

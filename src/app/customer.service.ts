@@ -17,4 +17,12 @@ export class CustomerService {
   getCustomers(): Observable<Customer[]> {
     return this.http.get<Customer[]>(this.url);
   }
+
+  getCustomer(id: number): Observable<Customer> {
+    return this.http.get<Customer>(this.url + '/' + id);
+  }
+
+  saveCustomers(customer: Customer) {
+    return this.http.post(this.url, customer);
+  }
 }
