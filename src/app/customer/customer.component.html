@@ -1,0 +1,48 @@
+<div nz-row [nzGutter]="16">
+  <div nz-col class="gutter-row" [nzSpan]="5">
+    <div class="inner-box"></div>
+  </div>
+  <div nz-col class="gutter-row" [nzSpan]="14">
+    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="firstName">Vorname</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Bitte geben sie Ihren Vornamen ein!">
+          <input nz-input formControlName="firstName" id="firstName"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="lastName">Name</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Bitte geben sie Ihren Name ein!">
+          <input nz-input formControlName="lastName" id="lastName"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">E-Mail</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Bitte geben sie Ihre E-Mail ein!">
+          <input nz-input formControlName="email" id="email"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="phoneNumber">Telefonnummer</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Bitte geben sie Ihre Telefonnummer ein!">
+          <input nz-input formControlName="phoneNumber" id="phoneNumber"/>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired>Geburtsdatum</nz-form-label>
+        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Bitte geben sie Ihren Geburtadatum ein!">
+          <nz-date-picker formControlName="birthday"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item nz-row class="register-area">
+        <nz-form-control [nzSpan]="14" [nzOffset]="6">
+          <button nz-button nzType="primary">Speichern</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+    <div class="inner-box"></div>
+  </div>
+  <div nz-col class="gutter-row" [nzSpan]="5">
+    <div class="inner-box"></div>
+  </div>
+</div>

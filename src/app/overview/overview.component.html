@@ -1,0 +1,75 @@
+<div nz-row [nzGutter]="16">
+  <div nz-col class="gutter-row" [nzSpan]="3">
+    <div class="inner-box"></div>
+  </div>
+  <div nz-col class="gutter-row" [nzSpan]="18">
+    <div #mainLayout>
+      <nz-table [nzData]="customers" [nzPageSize]="10">
+        <thead>
+        <tr>
+          <th></th>
+          <th>Vorname</th>
+          <th>Nachname</th>
+          <th>Email</th>
+          <th>Telefonnummer</th>
+          <th>Geburtstag</th>
+          <th>
+            <button nz-button nzType="primary">
+              <i nz-icon nzType="plus"></i>
+              Hinzufügen
+            </button>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-template ngFor let-customer [ngForOf]="customers">
+          <tr>
+            <td [(nzExpand)]="customer.expand"></td>
+            <td>{{ customer.firstName }}</td>
+            <td>{{ customer.lastName }}</td>
+            <td>{{ customer.email }}</td>
+            <td>{{ customer.phoneNumber }}</td>
+            <td>{{ customer.birthday }}</td>
+            <td>
+              <button nz-button nzType="primary">
+                <i nz-icon nzType="edit"></i>
+                Bearbeiten
+              </button>
+              <button nz-button nzType="primary" nzDanger>
+                <i nz-icon nzType="delete"></i>
+                Löschen
+              </button>
+            </td>
+          </tr>
+          <tr [nzExpand]="customer.expand">
+            <ng-container [ngTemplateOutlet]="innerTableTemplate" [ngTemplateOutletContext]="{addresses:customer.addresses}"></ng-container>
+          </tr>
+        </ng-template>
+        </tbody>
+      </nz-table>
+
+      <ng-template #innerTableTemplate let-addresses="addresses">
+        <nz-table [nzData]="addresses" [nzFrontPagination]="false">
+          <thead>
+          <tr>
+            <th>Strasse</th>
+            <th>PLZ</th>
+            <th>Ort</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let address of addresses">
+            <td>{{address.street}}</td>
+            <td>{{address.plz}}</td>
+            <td>{{address.city}}</td>
+          </tr>
+          </tbody>
+        </nz-table>
+      </ng-template>
+    </div>
+    <div class="inner-box"></div>
+  </div>
+  <div nz-col class="gutter-row" [nzSpan]="3">
+    <div class="inner-box"></div>
+  </div>
+</div>
