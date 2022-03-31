@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../environments/environment';
 import { Customer } from './models';
 
 
@@ -9,7 +10,7 @@ import { Customer } from './models';
 })
 export class CustomerService {
 
-  private url = 'http://localhost:8080/customer';
+  private url = environment.url + '/customer';
 
   constructor(private http: HttpClient) {
   }

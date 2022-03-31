@@ -4,7 +4,7 @@
   </div>
   <div nz-col class="gutter-row" [nzSpan]="18">
     <div #mainLayout>
-      <nz-table [nzData]="customers" [nzPageSize]="10">
+      <nz-table #customerTable [nzData]="customers" [nzPageSize]="10">
         <thead>
         <tr>
           <th></th>
@@ -22,7 +22,7 @@
         </tr>
         </thead>
         <tbody>
-        <ng-template ngFor let-customer [ngForOf]="customers">
+        <ng-template ngFor let-customer [ngForOf]="customerTable.data">
           <tr>
             <td [(nzExpand)]="customer.expand"></td>
             <td>{{ customer.firstName }}</td>
