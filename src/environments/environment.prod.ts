@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  url: 'https://customermanagerhoc.herokuapp.com'
+  url: 'https://customermanager-production.up.railway.app'
 };
